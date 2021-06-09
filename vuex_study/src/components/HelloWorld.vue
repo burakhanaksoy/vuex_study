@@ -31,6 +31,7 @@
 <script>
 import Stats from "@/components/Stats.vue";
 import { mapState, mapActions } from "vuex";
+
 export default {
   name: "HelloWorld",
   data() {

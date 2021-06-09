@@ -14,6 +14,9 @@ export default createStore({
     countLinks: (state) => {
       return state.links.length;
     },
+    spinnerState: (state) => {
+      return state.showSpinner;
+    },
   },
   mutations: {
     ADD_LINK: (state, link) => {
@@ -25,8 +28,8 @@ export default createStore({
     CLEAR_ALL_LINKS: (state) => {
       state.links = [];
     },
-    SET_SPINNER: (state, spinner) => {
-      state.showSpinner = spinner;
+    SET_SPINNER: (state, val) => {
+      state.showSpinner = val;
     },
   },
   actions: {
@@ -38,7 +41,11 @@ export default createStore({
       context.commit("CLEAR_ALL_LINKS");
     },
     addLink: (context, link) => {
-      context.commit("ADD_LINK", link);
+      context.commit("SET_SPINNER", true);
+      setTimeout(() => {
+        context.commit("ADD_LINK", link);
+        context.commit("SET_SPINNER", false);
+      }, 1500);
     },
   },
   modules: {},
