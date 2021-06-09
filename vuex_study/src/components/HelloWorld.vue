@@ -3,13 +3,14 @@
     <div class="hello">
       <div class="left">
         <h1>{{ custom }}</h1>
-        <form @submit.prevent="addLink">
+        <form @submit.prevent="addLinks">
           <input
             class="link-input"
             type="text"
             placeholder="Add a link"
             v-model="newLink"
           />
+          <button class="btn-add"><span class="add-btn-text">Add</span></button>
         </form>
         <ul>
           <li v-for="(link, index) in siteLinks" v-bind:key="index">
@@ -29,7 +30,7 @@
 
 <script>
 import Stats from "@/components/Stats.vue";
-import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "HelloWorld",
   data() {
@@ -45,14 +46,16 @@ export default {
     }),
   },
   methods: {
-    ...mapMutations(["ADD_LINK"]),
-    addLink: function () {
-      this.ADD_LINK(this.newLink);
-      this.newLink = "";
+    ...mapActions(["addLink"]),
+    addLinks: function () {
+      if (this.newLink.trim() != "") {
+        this.$store.dispatch("addLink", this.newLink);
+        this.newLink = "";
+      }
     },
     ...mapActions(["removeLink"]),
     removeLinks: function (link) {
-      this.removeLink(link);
+      this.$store.dispatch("removeLink", link);
     },
   },
 };
@@ -109,11 +112,29 @@ input {
   margin-bottom: 3rem;
   outline: none;
 }
+.btn-add {
+  border: none;
+  padding: 20px;
+  width: 5rem;
+  box-shadow: 0 5px 5px lightgray;
+  margin-bottom: 3rem;
+  outline: none;
+}
+
+.btn-add:hover {
+  background-color: #3e8e41;
+}
 
 .rm {
   height: 30px;
   padding: 5px;
   border: none;
   cursor: pointer;
+}
+
+.add-btn-text {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  font-size: 15px;
 }
 </style>

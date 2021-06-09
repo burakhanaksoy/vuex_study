@@ -8,6 +8,7 @@ export default createStore({
       "https://facebook.com",
       "https://twitter.com",
     ],
+    showSpinner: false,
   },
   getters: {
     countLinks: (state) => {
@@ -24,6 +25,9 @@ export default createStore({
     CLEAR_ALL_LINKS: (state) => {
       state.links = [];
     },
+    SET_SPINNER: (state, spinner) => {
+      state.showSpinner = spinner;
+    },
   },
   actions: {
     removeLink: (context, link) => {
@@ -32,6 +36,9 @@ export default createStore({
 
     clearAllLinks: (context) => {
       context.commit("CLEAR_ALL_LINKS");
+    },
+    addLink: (context, link) => {
+      context.commit("ADD_LINK", link);
     },
   },
   modules: {},
